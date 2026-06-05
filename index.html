@@ -16,6 +16,7 @@
         <a href="#obras">Obras</a>
         <a href="#proceso">Proceso</a>
         <a href="#contacto">Contacto</a>
+        <button class="account-trigger" type="button" id="accountTrigger">Entrar</button>
       </nav>
     </header>
 
@@ -75,6 +76,7 @@
           <div class="gallery-actions">
             <input class="upload-input" id="workUpload" type="file" accept="image/*" multiple>
             <label class="button upload-button" for="workUpload">Subir obra</label>
+            <span class="auth-status" id="authStatus">Inicia sesion para guardar cambios.</span>
           </div>
         </div>
 
@@ -228,6 +230,33 @@
       </form>
     </dialog>
 
+    <dialog class="edit-dialog" id="authDialog" aria-label="Cuenta">
+      <form class="edit-form" id="authForm" method="dialog">
+        <div class="edit-form-heading">
+          <span>Cuenta</span>
+          <button class="icon-button" type="button" id="cancelAuth" aria-label="Cerrar cuenta">Cerrar</button>
+        </div>
+        <p class="form-note">
+          Entra con la cuenta de Marijose para subir, editar y eliminar obras guardadas.
+        </p>
+        <label>
+          Email
+          <input id="authEmail" name="email" type="email" autocomplete="email" required>
+        </label>
+        <label>
+          Password
+          <input id="authPassword" name="password" type="password" autocomplete="current-password" required>
+        </label>
+        <p class="auth-message" id="authMessage" role="status"></p>
+        <div class="edit-actions">
+          <button class="button secondary" type="button" id="signOutButton">Salir</button>
+          <button class="button secondary" type="button" id="signUpButton">Crear cuenta</button>
+          <button class="button primary" type="submit">Entrar</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="./script.js"></script>
   </body>
 </html>

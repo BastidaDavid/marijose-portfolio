@@ -133,11 +133,27 @@ const cancelEdit = document.querySelector("#cancelEdit");
 const deleteFromEditor = document.querySelector("#deleteFromEditor");
 const editCurrentWork = document.querySelector("#editCurrentWork");
 const deleteCurrentWork = document.querySelector("#deleteCurrentWork");
+const accountTrigger = document.querySelector("#accountTrigger");
+const authDialog = document.querySelector("#authDialog");
+const authForm = document.querySelector("#authForm");
+const authEmail = document.querySelector("#authEmail");
+const authPassword = document.querySelector("#authPassword");
+const authMessage = document.querySelector("#authMessage");
+const authStatus = document.querySelector("#authStatus");
+const cancelAuth = document.querySelector("#cancelAuth");
+const signUpButton = document.querySelector("#signUpButton");
+const signOutButton = document.querySelector("#signOutButton");
+const supabaseUrl = "https://nnsznkxevilixxykoipa.supabase.co";
+const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5uc3pua3hldmlsaXh4eWtvaXBhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0NjA1MTUsImV4cCI6MjA5NjAzNjUxNX0.6-_h0xoKQBNordz6WwPZWy14KON3SKISVkx-TI67tyw";
+const supabaseClient = window.supabase?.createClient(supabaseUrl, supabaseAnonKey);
 let activeFilter = "all";
 let editingIndex = null;
 let activeWorkIndex = null;
+let currentUser = null;
+let remoteReady = Boolean(supabaseClient);
 
 hydrateInitialCards();
+initializeSupabase();
 
 filterButtons.forEach((button) => {
   button.addEventListener("click", () => {
@@ -177,6 +193,27 @@ cancelEdit.addEventListener("click", () => {
   editDialog.close();
 });
 
+accountTrigger.addEventListener("click", () => {
+  authDialog.showModal();
+});
+
+cancelAuth.addEventListener("click", () => {
+  authDialog.close();
+});
+
+authForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  await signIn();
+});
+
+signUpButton.addEventListener("click", async () => {
+  await signUp();
+});
+
+signOutButton.addEventListener("click", async () => {
+  await signOut();
+});
+
 deleteFromEditor.addEventListener("click", () => {
   if (editingIndex !== null) {
     const deleted = deleteWork(editingIndex);
@@ -202,6 +239,7 @@ editForm.addEventListener("submit", (event) => {
   work.alt = `Obra de portfolio: ${work.title}`;
 
   updateCard(editingIndex);
+  saveRemoteWork(work);
   editDialog.close();
   applyFilter();
 });
@@ -287,6 +325,14 @@ async function addUploadedWork(file) {
     large: false
   };
 
+  if (currentUser && remoteReady) {
+    const remoteWork = await createRemoteWork(file, work);
+
+    if (remoteWork) {
+      Object.assign(work, remoteWork);
+    }
+  }
+
   works.push(work);
   renderUploadedCard(work, works.length - 1);
   updateWorkCount();
@@ -299,6 +345,9 @@ function renderUploadedCard(work, index) {
   const card = document.createElement("article");
   card.className = "work-card";
   card.dataset.category = work.category;
+  if (work.source === "remote") {
+    card.dataset.source = "remote";
+  }
   card.innerHTML = `
     <button type="button" data-index="${index}">
       <img src="${work.image}" alt="${work.alt}">
@@ -306,6 +355,13 @@ function renderUploadedCard(work, index) {
     </button>
   `;
   gallery.append(card);
+}
+
+function renderRemoteWork(work) {
+  works.push(work);
+  renderUploadedCard(work, works.length - 1);
+  updateWorkCount();
+  applyFilter();
 }
 
 function openEditor(index) {
@@ -344,6 +400,7 @@ function deleteWork(index) {
 
   document.querySelector(`.work-card button[data-index="${index}"]`)?.closest(".work-card")?.remove();
   works.splice(index, 1);
+  deleteRemoteWork(work);
   activeWorkIndex = null;
   editingIndex = null;
   reindexCards();
@@ -360,6 +417,217 @@ function reindexCards() {
 
 function updateWorkCount() {
   workCount.textContent = works.length;
+}
+
+async function initializeSupabase() {
+  if (!supabaseClient) {
+    authStatus.textContent = "Supabase no cargo. La galeria esta en modo demo.";
+    return;
+  }
+
+  const { data } = await supabaseClient.auth.getSession();
+  currentUser = data.session?.user || null;
+  updateAuthUI();
+  await loadRemoteWorks();
+
+  supabaseClient.auth.onAuthStateChange(async (_event, session) => {
+    currentUser = session?.user || null;
+    updateAuthUI();
+    await loadRemoteWorks();
+  });
+}
+
+function updateAuthUI() {
+  if (currentUser) {
+    accountTrigger.textContent = "Cuenta";
+    authStatus.textContent = `Guardando como ${currentUser.email}`;
+    signOutButton.disabled = false;
+    uploadInput.disabled = false;
+    return;
+  }
+
+  accountTrigger.textContent = "Entrar";
+  authStatus.textContent = "Inicia sesion para guardar cambios.";
+  signOutButton.disabled = true;
+  uploadInput.disabled = false;
+}
+
+async function signIn() {
+  if (!supabaseClient) {
+    setAuthMessage("Supabase no cargo. Intenta recargar la pagina.");
+    return;
+  }
+
+  setAuthMessage("Entrando...");
+  const { error } = await supabaseClient.auth.signInWithPassword({
+    email: authEmail.value.trim(),
+    password: authPassword.value
+  });
+
+  if (error) {
+    setAuthMessage(error.message);
+    return;
+  }
+
+  setAuthMessage("Sesion iniciada.");
+  authDialog.close();
+}
+
+async function signUp() {
+  if (!supabaseClient) {
+    setAuthMessage("Supabase no cargo. Intenta recargar la pagina.");
+    return;
+  }
+
+  setAuthMessage("Creando cuenta...");
+  const { error } = await supabaseClient.auth.signUp({
+    email: authEmail.value.trim(),
+    password: authPassword.value
+  });
+
+  if (error) {
+    setAuthMessage(error.message);
+    return;
+  }
+
+  setAuthMessage("Cuenta creada. Revisa el email si Supabase pide confirmacion.");
+}
+
+async function signOut() {
+  await supabaseClient.auth.signOut();
+  setAuthMessage("Sesion cerrada.");
+  authDialog.close();
+}
+
+function setAuthMessage(message) {
+  authMessage.textContent = message;
+}
+
+async function loadRemoteWorks() {
+  if (!supabaseClient || !remoteReady) {
+    return;
+  }
+
+  const { data, error } = await supabaseClient
+    .from("works")
+    .select("*")
+    .order("created_at", { ascending: true });
+
+  if (error) {
+    remoteReady = false;
+    authStatus.textContent = "Falta crear tabla/bucket en Supabase. Revisa supabase/schema.sql.";
+    return;
+  }
+
+  document.querySelectorAll('.work-card[data-source="remote"]').forEach((card) => card.remove());
+  for (let index = works.length - 1; index >= 0; index -= 1) {
+    if (works[index].source === "remote") {
+      works.splice(index, 1);
+    }
+  }
+  reindexCards();
+
+  data.map(fromRemoteRow).forEach(renderRemoteWork);
+}
+
+async function createRemoteWork(file, work) {
+  const safeName = file.name.replace(/[^a-z0-9._-]/gi, "-").toLowerCase();
+  const path = `${currentUser.id}/${crypto.randomUUID()}-${safeName}`;
+  const { error: uploadError } = await supabaseClient.storage
+    .from("portfolio-works")
+    .upload(path, file, { cacheControl: "3600", upsert: false });
+
+  if (uploadError) {
+    authStatus.textContent = uploadError.message;
+    return null;
+  }
+
+  const { data: publicImage } = supabaseClient.storage
+    .from("portfolio-works")
+    .getPublicUrl(path);
+
+  const row = {
+    title: work.title,
+    description: work.description,
+    category: work.category,
+    meta: work.meta,
+    image_url: publicImage.publicUrl,
+    storage_path: path,
+    alt: work.alt,
+    palette: work.palette,
+    is_large: false
+  };
+  const { data, error } = await supabaseClient
+    .from("works")
+    .insert(row)
+    .select()
+    .single();
+
+  if (error) {
+    authStatus.textContent = error.message;
+    return null;
+  }
+
+  return fromRemoteRow(data);
+}
+
+async function saveRemoteWork(work) {
+  if (!work.remoteId || !currentUser || !remoteReady) {
+    return;
+  }
+
+  const { error } = await supabaseClient
+    .from("works")
+    .update({
+      title: work.title,
+      description: work.description,
+      category: work.category,
+      meta: work.meta,
+      alt: work.alt,
+      palette: work.palette,
+      is_large: work.large
+    })
+    .eq("id", work.remoteId);
+
+  if (error) {
+    authStatus.textContent = error.message;
+  }
+}
+
+async function deleteRemoteWork(work) {
+  if (!work.remoteId || !currentUser || !remoteReady) {
+    return;
+  }
+
+  const { error } = await supabaseClient
+    .from("works")
+    .delete()
+    .eq("id", work.remoteId);
+
+  if (error) {
+    authStatus.textContent = error.message;
+    return;
+  }
+
+  if (work.storagePath) {
+    await supabaseClient.storage.from("portfolio-works").remove([work.storagePath]);
+  }
+}
+
+function fromRemoteRow(row) {
+  return {
+    title: row.title,
+    description: row.description,
+    image: row.image_url,
+    alt: row.alt || `Obra de portfolio: ${row.title}`,
+    palette: row.palette || [],
+    category: row.category,
+    meta: row.meta || "Obra subida",
+    large: Boolean(row.is_large),
+    remoteId: row.id,
+    storagePath: row.storage_path,
+    source: "remote"
+  };
 }
 
 function readFileAsDataUrl(file) {

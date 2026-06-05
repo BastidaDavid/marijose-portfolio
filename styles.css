@@ -93,6 +93,20 @@ button {
   color: var(--ink);
 }
 
+.account-trigger {
+  min-height: 34px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
 main {
   overflow: hidden;
 }
@@ -292,7 +306,10 @@ h3 {
 
 .gallery-actions {
   display: flex;
+  align-items: center;
+  flex-wrap: wrap;
   justify-content: flex-end;
+  gap: 10px;
   margin-top: 12px;
 }
 
@@ -311,6 +328,15 @@ h3 {
   background: var(--denim);
   color: var(--paper);
   cursor: pointer;
+}
+
+.auth-status {
+  max-width: 260px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.35;
+  text-align: right;
 }
 
 .filter {
@@ -662,6 +688,20 @@ h3 {
   text-transform: uppercase;
 }
 
+.form-note,
+.auth-message {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.auth-message {
+  min-height: 22px;
+  color: var(--denim);
+  font-weight: 750;
+}
+
 .edit-form input,
 .edit-form textarea,
 .edit-form select {
@@ -689,9 +729,16 @@ h3 {
 
 .edit-actions {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   gap: 12px;
   margin-top: 4px;
+}
+
+.button:disabled,
+.icon-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
 }
 
 @media (max-width: 980px) {
@@ -747,6 +794,11 @@ h3 {
     justify-content: space-between;
   }
 
+  .account-trigger {
+    min-height: 32px;
+    padding: 0 10px;
+  }
+
   .hero {
     padding-top: 34px;
   }
@@ -782,6 +834,15 @@ h3 {
 
   .work-card.large {
     grid-column: span 1;
+  }
+
+  .gallery-actions {
+    justify-content: flex-start;
+  }
+
+  .auth-status {
+    max-width: none;
+    text-align: left;
   }
 
   .work-meta {

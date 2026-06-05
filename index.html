@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Marijose Fernandez | Portfolio</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#inicio" aria-label="Ir al inicio">
+        <span class="brand-mark">MF</span>
+        <span>Marijose Fernandez</span>
+      </a>
+      <nav class="nav" aria-label="Principal">
+        <a href="#obras">Obras</a>
+        <a href="#proceso">Proceso</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+    </header>
+
+    <main id="inicio">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="section-label">Portfolio de ilustracion y diseno de moda</p>
+          <h1>Marijose Fernandez</h1>
+          <p class="hero-text">
+            Bocetos de moda, exploraciones textiles y piezas ilustradas con una mirada
+            fresca, expresiva y artesanal.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#obras">Ver obras</a>
+            <a class="button secondary" href="./assets/dibujos-marijose.pdf" target="_blank" rel="noreferrer">Abrir PDF</a>
+          </div>
+        </div>
+
+        <div class="hero-art" aria-label="Obras destacadas">
+          <figure class="feature-card feature-main">
+            <img src="./assets/pdf-pages/page-1.png" alt="Boceto de pantalon denim con plumas">
+          </figure>
+          <figure class="feature-card feature-small">
+            <img src="./assets/pdf-pages/page-2.png" alt="Objeto de diseno con petalos de color">
+          </figure>
+        </div>
+      </section>
+
+      <section class="intro-strip" aria-label="Resumen">
+        <div>
+          <span class="metric">9</span>
+          <span class="metric-label">laminas seleccionadas</span>
+        </div>
+        <div>
+          <span class="metric">Moda</span>
+          <span class="metric-label">figurines y prendas</span>
+        </div>
+        <div>
+          <span class="metric">Color</span>
+          <span class="metric-label">patrones, textura y detalle</span>
+        </div>
+      </section>
+
+      <section id="obras" class="works-section">
+        <div class="section-heading">
+          <div>
+            <p class="section-label">Obras seleccionadas</p>
+            <h2>Una galeria para presentar el PDF como portfolio.</h2>
+          </div>
+          <div class="filters" aria-label="Filtros de obras">
+            <button class="filter active" type="button" data-filter="all">Todo</button>
+            <button class="filter" type="button" data-filter="moda">Moda</button>
+            <button class="filter" type="button" data-filter="objeto">Objeto</button>
+            <button class="filter" type="button" data-filter="manual">Manual</button>
+          </div>
+        </div>
+
+        <div class="gallery" id="gallery">
+          <article class="work-card large" data-category="moda">
+            <button type="button" data-index="0">
+              <img src="./assets/pdf-pages/page-1.png" alt="Pantalon denim con aplicacion de plumas">
+              <span class="work-meta"><strong>Denim Plume</strong><span>Figurin frontal y posterior</span></span>
+            </button>
+          </article>
+          <article class="work-card" data-category="objeto">
+            <button type="button" data-index="1">
+              <img src="./assets/pdf-pages/page-2.png" alt="Objeto con petalos organicos de colores">
+              <span class="work-meta"><strong>Objeto petalo</strong><span>Forma, color y textura</span></span>
+            </button>
+          </article>
+          <article class="work-card" data-category="moda">
+            <button type="button" data-index="2">
+              <img src="./assets/pdf-pages/page-3.png" alt="Boceto de moda pagina 3">
+              <span class="work-meta"><strong>Silueta editorial</strong><span>Estudio de prenda</span></span>
+            </button>
+          </article>
+          <article class="work-card" data-category="moda">
+            <button type="button" data-index="3">
+              <img src="./assets/pdf-pages/page-4.png" alt="Boceto de moda pagina 4">
+              <span class="work-meta"><strong>Look estructurado</strong><span>Proporcion y linea</span></span>
+            </button>
+          </article>
+          <article class="work-card large" data-category="moda">
+            <button type="button" data-index="4">
+              <img src="./assets/pdf-pages/page-5.png" alt="Vestido rosa translucido con cinturon">
+              <span class="work-meta"><strong>Rosa translucido</strong><span>Frente y espalda</span></span>
+            </button>
+          </article>
+          <article class="work-card" data-category="moda">
+            <button type="button" data-index="5">
+              <img src="./assets/pdf-pages/page-6.png" alt="Boceto de moda pagina 6">
+              <span class="work-meta"><strong>Estudio de volumen</strong><span>Moda experimental</span></span>
+            </button>
+          </article>
+          <article class="work-card" data-category="manual">
+            <button type="button" data-index="6">
+              <img src="./assets/pdf-pages/page-7.png" alt="Boceto manual pagina 7">
+              <span class="work-meta"><strong>Sketchbook I</strong><span>Trazos y paleta</span></span>
+            </button>
+          </article>
+          <article class="work-card" data-category="manual">
+            <button type="button" data-index="7">
+              <img src="./assets/pdf-pages/page-8.png" alt="Boceto manual pagina 8">
+              <span class="work-meta"><strong>Sketchbook II</strong><span>Idea en desarrollo</span></span>
+            </button>
+          </article>
+          <article class="work-card large" data-category="manual">
+            <button type="button" data-index="8">
+              <img src="./assets/pdf-pages/page-9.png" alt="Vestido amarillo con patrones dibujados">
+              <span class="work-meta"><strong>Cositas</strong><span>Patron, color e ilustracion</span></span>
+            </button>
+          </article>
+        </div>
+      </section>
+
+      <section id="proceso" class="process-section">
+        <div class="process-copy">
+          <p class="section-label">Proceso creativo</p>
+          <h2>De la linea al volumen.</h2>
+          <p>
+            El portfolio organiza cada lamina como una pieza de exposicion: primero
+            la silueta, despues el detalle de textura, patron o color.
+          </p>
+        </div>
+        <div class="process-list">
+          <div>
+            <span>01</span>
+            <strong>Boceto</strong>
+            <p>Figurines frontales y posteriores para comunicar forma y caida.</p>
+          </div>
+          <div>
+            <span>02</span>
+            <strong>Textura</strong>
+            <p>Aplicaciones, plumas, transparencias y superficies pintadas.</p>
+          </div>
+          <div>
+            <span>03</span>
+            <strong>Presentacion</strong>
+            <p>Una lectura limpia para entrevistas, admisiones o clientes.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="contacto" class="contact-section">
+        <h2>Hecho desde el mundo de Marijose.</h2>
+        <p>
+          Un espacio para sus bocetos, sus paletas y esas ideas que empiezan en
+          papel y terminan contando una historia de moda, color y personalidad.
+        </p>
+        <a class="button primary" href="mailto:marijose@example.com">Contactar</a>
+      </section>
+    </main>
+
+    <dialog class="lightbox" id="lightbox" aria-label="Detalle de obra">
+      <button class="close-button" type="button" aria-label="Cerrar">Cerrar</button>
+      <div class="lightbox-body">
+        <img id="lightboxImage" alt="">
+        <div class="lightbox-copy">
+          <span id="lightboxCount"></span>
+          <h3 id="lightboxTitle"></h3>
+          <p id="lightboxDescription"></p>
+          <div class="palette-panel" aria-label="Paleta de color">
+            <strong>Paleta de color</strong>
+            <div class="palette-grid" id="lightboxPalette"></div>
+          </div>
+        </div>
+      </div>
+    </dialog>
+
+    <script src="./script.js"></script>
+  </body>
+</html>

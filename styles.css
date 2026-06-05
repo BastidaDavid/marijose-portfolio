@@ -340,6 +340,7 @@ h3 {
 }
 
 .work-card {
+  position: relative;
   min-width: 0;
 }
 
@@ -403,6 +404,36 @@ h3 {
 
 .work-card.is-hidden {
   display: none;
+}
+
+.card-tools {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 3;
+  display: flex;
+  gap: 6px;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.card-tools button {
+  min-height: 30px;
+  padding: 0 10px;
+  border: 1px solid rgba(22, 19, 18, 0.16);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 8px 22px rgba(34, 27, 22, 0.12);
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.card-tools button:hover {
+  border-color: var(--ink);
 }
 
 .process-section {
@@ -595,6 +626,95 @@ h3 {
   text-transform: uppercase;
 }
 
+.edit-dialog {
+  width: min(520px, calc(100vw - 32px));
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.edit-dialog::backdrop {
+  background: rgba(22, 19, 18, 0.48);
+  backdrop-filter: blur(10px);
+}
+
+.edit-form {
+  display: grid;
+  gap: 18px;
+  padding: 28px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+
+.edit-form-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.edit-form-heading span {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 34px;
+  line-height: 1;
+}
+
+.icon-button {
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--paper);
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.edit-form label {
+  display: grid;
+  gap: 8px;
+  color: var(--denim);
+  font-size: 12px;
+  font-weight: 850;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.edit-form input,
+.edit-form textarea,
+.edit-form select {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: #fff;
+  color: var(--ink);
+  font: 600 15px/1.45 Inter, ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: 0;
+  outline: 0;
+  padding: 12px 13px;
+  text-transform: none;
+}
+
+.edit-form textarea {
+  resize: vertical;
+}
+
+.edit-form input:focus,
+.edit-form textarea:focus,
+.edit-form select:focus {
+  border-color: var(--ink);
+}
+
+.edit-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 4px;
+}
+
 @media (max-width: 980px) {
   .hero,
   .section-heading,
@@ -683,6 +803,11 @@ h3 {
 
   .work-card.large {
     grid-column: span 1;
+  }
+
+  .card-tools {
+    opacity: 1;
+    pointer-events: auto;
   }
 
   .work-meta {

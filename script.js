@@ -123,7 +123,18 @@ const lightboxPalette = document.querySelector("#lightboxPalette");
 const closeButton = document.querySelector(".close-button");
 const uploadInput = document.querySelector("#workUpload");
 const workCount = document.querySelector("#workCount");
+const editDialog = document.querySelector("#editDialog");
+const editForm = document.querySelector("#editForm");
+const editTitle = document.querySelector("#editTitle");
+const editDescription = document.querySelector("#editDescription");
+const editCategory = document.querySelector("#editCategory");
+const editMeta = document.querySelector("#editMeta");
+const cancelEdit = document.querySelector("#cancelEdit");
+const deleteFromEditor = document.querySelector("#deleteFromEditor");
 let activeFilter = "all";
+let editingIndex = null;
+
+hydrateInitialCards();
 
 filterButtons.forEach((button) => {
   button.addEventListener("click", () => {
@@ -136,6 +147,22 @@ filterButtons.forEach((button) => {
 });
 
 gallery.addEventListener("click", (event) => {
+  const tool = event.target.closest("[data-action]");
+
+  if (tool) {
+    const index = Number(tool.closest(".work-card").querySelector("[data-index]").dataset.index);
+
+    if (tool.dataset.action === "edit") {
+      openEditor(index);
+    }
+
+    if (tool.dataset.action === "delete") {
+      deleteWork(index);
+    }
+
+    return;
+  }
+
   const trigger = event.target.closest(".work-card button");
 
   if (!trigger) {
@@ -159,11 +186,54 @@ closeButton.addEventListener("click", () => {
   lightbox.close();
 });
 
+cancelEdit.addEventListener("click", () => {
+  editDialog.close();
+});
+
+deleteFromEditor.addEventListener("click", () => {
+  if (editingIndex !== null) {
+    deleteWork(editingIndex);
+    editDialog.close();
+  }
+});
+
+editForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  if (editingIndex === null) {
+    return;
+  }
+
+  const work = works[editingIndex];
+  work.title = editTitle.value.trim() || "Nueva obra";
+  work.description = editDescription.value.trim() || "Obra seleccionada para el portfolio.";
+  work.category = editCategory.value;
+  work.meta = editMeta.value.trim() || "Obra editada";
+  work.alt = `Obra de portfolio: ${work.title}`;
+
+  updateCard(editingIndex);
+  editDialog.close();
+  applyFilter();
+});
+
 lightbox.addEventListener("click", (event) => {
   if (event.target === lightbox) {
     lightbox.close();
   }
 });
+
+function hydrateInitialCards() {
+  document.querySelectorAll(".work-card").forEach((card, index) => {
+    const trigger = card.querySelector("button");
+    const meta = card.querySelector(".work-meta > span");
+
+    works[index].category = card.dataset.category;
+    works[index].meta = meta?.textContent.trim() || "Obra seleccionada";
+    works[index].large = card.classList.contains("large");
+    trigger.dataset.index = index;
+    addCardTools(card);
+  });
+}
 
 function applyFilter() {
   document.querySelectorAll(".work-card").forEach((card) => {
@@ -204,12 +274,15 @@ async function addUploadedWork(file) {
     description: "Nueva obra subida a la galeria para revisar junto al resto del portfolio.",
     image,
     alt: `Obra subida: ${title}`,
-    palette
+    palette,
+    category: "subidas",
+    meta: "Obra subida",
+    large: false
   };
 
   works.push(work);
   renderUploadedCard(work, works.length - 1);
-  workCount.textContent = works.length;
+  updateWorkCount();
   activeFilter = "all";
   filterButtons.forEach((item) => item.classList.toggle("active", item.dataset.filter === "all"));
   applyFilter();
@@ -218,14 +291,80 @@ async function addUploadedWork(file) {
 function renderUploadedCard(work, index) {
   const card = document.createElement("article");
   card.className = "work-card";
-  card.dataset.category = "subidas";
+  card.dataset.category = work.category;
   card.innerHTML = `
     <button type="button" data-index="${index}">
       <img src="${work.image}" alt="${work.alt}">
-      <span class="work-meta"><strong>${work.title}</strong><span>Obra subida</span></span>
+      <span class="work-meta"><strong>${work.title}</strong><span>${work.meta}</span></span>
     </button>
   `;
+  addCardTools(card);
   gallery.append(card);
+}
+
+function addCardTools(card) {
+  if (card.querySelector(".card-tools")) {
+    return;
+  }
+
+  const tools = document.createElement("div");
+  tools.className = "card-tools";
+  tools.innerHTML = `
+    <button type="button" data-action="edit">Editar</button>
+    <button type="button" data-action="delete">Eliminar</button>
+  `;
+  card.append(tools);
+}
+
+function openEditor(index) {
+  const work = works[index];
+
+  editingIndex = index;
+  editTitle.value = work.title;
+  editDescription.value = work.description;
+  editCategory.value = work.category || "subidas";
+  editMeta.value = work.meta || "Obra seleccionada";
+  editDialog.showModal();
+}
+
+function updateCard(index) {
+  const card = document.querySelector(`.work-card button[data-index="${index}"]`)?.closest(".work-card");
+  const work = works[index];
+
+  if (!card) {
+    return;
+  }
+
+  card.dataset.category = work.category;
+  card.classList.toggle("large", Boolean(work.large));
+  card.querySelector("img").alt = work.alt;
+  card.querySelector(".work-meta strong").textContent = work.title;
+  card.querySelector(".work-meta > span").textContent = work.meta;
+}
+
+function deleteWork(index) {
+  const work = works[index];
+  const confirmed = window.confirm(`Eliminar "${work.title}" de esta galeria?`);
+
+  if (!confirmed) {
+    return;
+  }
+
+  document.querySelector(`.work-card button[data-index="${index}"]`)?.closest(".work-card")?.remove();
+  works.splice(index, 1);
+  reindexCards();
+  updateWorkCount();
+  applyFilter();
+}
+
+function reindexCards() {
+  document.querySelectorAll(".work-card button[data-index]").forEach((button, index) => {
+    button.dataset.index = index;
+  });
+}
+
+function updateWorkCount() {
+  workCount.textContent = works.length;
 }
 
 function readFileAsDataUrl(file) {

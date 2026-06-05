@@ -190,6 +190,40 @@
       </div>
     </dialog>
 
+    <dialog class="edit-dialog" id="editDialog" aria-label="Editar obra">
+      <form class="edit-form" id="editForm" method="dialog">
+        <div class="edit-form-heading">
+          <span>Editar obra</span>
+          <button class="icon-button" type="button" id="cancelEdit" aria-label="Cerrar editor">Cerrar</button>
+        </div>
+        <label>
+          Titulo
+          <input id="editTitle" name="title" type="text" required>
+        </label>
+        <label>
+          Descripcion
+          <textarea id="editDescription" name="description" rows="4" required></textarea>
+        </label>
+        <label>
+          Categoria
+          <select id="editCategory" name="category">
+            <option value="moda">Moda</option>
+            <option value="objeto">Objeto</option>
+            <option value="manual">Manual</option>
+            <option value="subidas">Subidas</option>
+          </select>
+        </label>
+        <label>
+          Etiqueta corta
+          <input id="editMeta" name="meta" type="text" maxlength="34" required>
+        </label>
+        <div class="edit-actions">
+          <button class="button secondary" type="button" id="deleteFromEditor">Eliminar</button>
+          <button class="button primary" type="submit">Guardar</button>
+        </div>
+      </form>
+    </dialog>
+
     <script src="./script.js"></script>
   </body>
 </html>

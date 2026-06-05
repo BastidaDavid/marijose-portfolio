@@ -1,5 +1,5 @@
 -- Run this once in Supabase SQL Editor.
--- It creates persistent portfolio works plus storage rules for authenticated uploads.
+-- It creates persistent portfolio works plus storage rules for the Marijose admin email.
 
 create extension if not exists pgcrypto;
 
@@ -28,26 +28,41 @@ for select
 using (true);
 
 drop policy if exists "Users can create their own works" on public.works;
-create policy "Users can create their own works"
+drop policy if exists "Maryjo can create works" on public.works;
+create policy "Maryjo can create works"
 on public.works
 for insert
 to authenticated
-with check (auth.uid() = user_id);
+with check (
+  auth.uid() = user_id
+  and lower(auth.jwt() ->> 'email') = 'maryjo.f18@gmail.com'
+);
 
 drop policy if exists "Users can update their own works" on public.works;
-create policy "Users can update their own works"
+drop policy if exists "Maryjo can update works" on public.works;
+create policy "Maryjo can update works"
 on public.works
 for update
 to authenticated
-using (auth.uid() = user_id)
-with check (auth.uid() = user_id);
+using (
+  auth.uid() = user_id
+  and lower(auth.jwt() ->> 'email') = 'maryjo.f18@gmail.com'
+)
+with check (
+  auth.uid() = user_id
+  and lower(auth.jwt() ->> 'email') = 'maryjo.f18@gmail.com'
+);
 
 drop policy if exists "Users can delete their own works" on public.works;
-create policy "Users can delete their own works"
+drop policy if exists "Maryjo can delete works" on public.works;
+create policy "Maryjo can delete works"
 on public.works
 for delete
 to authenticated
-using (auth.uid() = user_id);
+using (
+  auth.uid() = user_id
+  and lower(auth.jwt() ->> 'email') = 'maryjo.f18@gmail.com'
+);
 
 create or replace function public.set_updated_at()
 returns trigger
@@ -76,35 +91,42 @@ for select
 using (bucket_id = 'portfolio-works');
 
 drop policy if exists "Users can upload portfolio images" on storage.objects;
-create policy "Users can upload portfolio images"
+drop policy if exists "Maryjo can upload portfolio images" on storage.objects;
+create policy "Maryjo can upload portfolio images"
 on storage.objects
 for insert
 to authenticated
 with check (
   bucket_id = 'portfolio-works'
+  and lower(auth.jwt() ->> 'email') = 'maryjo.f18@gmail.com'
   and (storage.foldername(name))[1] = auth.uid()::text
 );
 
 drop policy if exists "Users can update their portfolio images" on storage.objects;
-create policy "Users can update their portfolio images"
+drop policy if exists "Maryjo can update portfolio images" on storage.objects;
+create policy "Maryjo can update portfolio images"
 on storage.objects
 for update
 to authenticated
 using (
   bucket_id = 'portfolio-works'
+  and lower(auth.jwt() ->> 'email') = 'maryjo.f18@gmail.com'
   and (storage.foldername(name))[1] = auth.uid()::text
 )
 with check (
   bucket_id = 'portfolio-works'
+  and lower(auth.jwt() ->> 'email') = 'maryjo.f18@gmail.com'
   and (storage.foldername(name))[1] = auth.uid()::text
 );
 
 drop policy if exists "Users can delete their portfolio images" on storage.objects;
-create policy "Users can delete their portfolio images"
+drop policy if exists "Maryjo can delete portfolio images" on storage.objects;
+create policy "Maryjo can delete portfolio images"
 on storage.objects
 for delete
 to authenticated
 using (
   bucket_id = 'portfolio-works'
+  and lower(auth.jwt() ->> 'email') = 'maryjo.f18@gmail.com'
   and (storage.foldername(name))[1] = auth.uid()::text
 );

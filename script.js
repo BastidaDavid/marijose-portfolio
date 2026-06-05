@@ -146,6 +146,7 @@ const signOutButton = document.querySelector("#signOutButton");
 const supabaseUrl = "https://nnsznkxevilixxykoipa.supabase.co";
 const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5uc3pua3hldmlsaXh4eWtvaXBhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0NjA1MTUsImV4cCI6MjA5NjAzNjUxNX0.6-_h0xoKQBNordz6WwPZWy14KON3SKISVkx-TI67tyw";
 const supabaseClient = window.supabase?.createClient(supabaseUrl, supabaseAnonKey);
+const adminEmail = "maryjo.f18@gmail.com";
 let activeFilter = "all";
 let editingIndex = null;
 let activeWorkIndex = null;
@@ -194,6 +195,9 @@ cancelEdit.addEventListener("click", () => {
 });
 
 accountTrigger.addEventListener("click", () => {
+  if (!authEmail.value) {
+    authEmail.value = adminEmail;
+  }
   authDialog.showModal();
 });
 
@@ -239,7 +243,9 @@ editForm.addEventListener("submit", (event) => {
   work.alt = `Obra de portfolio: ${work.title}`;
 
   updateCard(editingIndex);
-  saveRemoteWork(work);
+  if (canManageRemote()) {
+    saveRemoteWork(work);
+  }
   editDialog.close();
   applyFilter();
 });
@@ -325,7 +331,7 @@ async function addUploadedWork(file) {
     large: false
   };
 
-  if (currentUser && remoteReady) {
+  if (canManageRemote()) {
     const remoteWork = await createRemoteWork(file, work);
 
     if (remoteWork) {
@@ -440,9 +446,15 @@ async function initializeSupabase() {
 function updateAuthUI() {
   if (currentUser) {
     accountTrigger.textContent = "Cuenta";
-    authStatus.textContent = `Guardando como ${currentUser.email}`;
     signOutButton.disabled = false;
-    uploadInput.disabled = false;
+
+    if (isAdminUser()) {
+      authStatus.textContent = `Guardando como ${currentUser.email}`;
+      uploadInput.disabled = false;
+    } else {
+      authStatus.textContent = `Sesion activa, pero solo ${adminEmail} puede guardar cambios.`;
+      uploadInput.disabled = true;
+    }
     return;
   }
 
@@ -450,6 +462,14 @@ function updateAuthUI() {
   authStatus.textContent = "Inicia sesion para guardar cambios.";
   signOutButton.disabled = true;
   uploadInput.disabled = false;
+}
+
+function isAdminUser() {
+  return currentUser?.email?.toLowerCase() === adminEmail;
+}
+
+function canManageRemote() {
+  return Boolean(currentUser && remoteReady && isAdminUser());
 }
 
 async function signIn() {
@@ -460,7 +480,7 @@ async function signIn() {
 
   setAuthMessage("Entrando...");
   const { error } = await supabaseClient.auth.signInWithPassword({
-    email: authEmail.value.trim(),
+    email: authEmail.value.trim().toLowerCase(),
     password: authPassword.value
   });
 
@@ -481,7 +501,7 @@ async function signUp() {
 
   setAuthMessage("Creando cuenta...");
   const { error } = await supabaseClient.auth.signUp({
-    email: authEmail.value.trim(),
+    email: authEmail.value.trim().toLowerCase(),
     password: authPassword.value
   });
 
@@ -572,7 +592,7 @@ async function createRemoteWork(file, work) {
 }
 
 async function saveRemoteWork(work) {
-  if (!work.remoteId || !currentUser || !remoteReady) {
+  if (!work.remoteId || !canManageRemote()) {
     return;
   }
 
@@ -595,7 +615,7 @@ async function saveRemoteWork(work) {
 }
 
 async function deleteRemoteWork(work) {
-  if (!work.remoteId || !currentUser || !remoteReady) {
+  if (!work.remoteId || !canManageRemote()) {
     return;
   }
 

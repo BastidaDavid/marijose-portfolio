@@ -46,7 +46,7 @@
 
       <section class="intro-strip" aria-label="Resumen">
         <div>
-          <span class="metric">9</span>
+          <span class="metric" id="workCount">9</span>
           <span class="metric-label">laminas seleccionadas</span>
         </div>
         <div>
@@ -70,6 +70,11 @@
             <button class="filter" type="button" data-filter="moda">Moda</button>
             <button class="filter" type="button" data-filter="objeto">Objeto</button>
             <button class="filter" type="button" data-filter="manual">Manual</button>
+            <button class="filter" type="button" data-filter="subidas">Subidas</button>
+          </div>
+          <div class="gallery-actions">
+            <input class="upload-input" id="workUpload" type="file" accept="image/*" multiple>
+            <label class="button upload-button" for="workUpload">Subir obra</label>
           </div>
         </div>
 

@@ -113,7 +113,7 @@ const works = [
 ];
 
 const filterButtons = document.querySelectorAll(".filter");
-const workCards = document.querySelectorAll(".work-card");
+const gallery = document.querySelector("#gallery");
 const lightbox = document.querySelector("#lightbox");
 const lightboxImage = document.querySelector("#lightboxImage");
 const lightboxTitle = document.querySelector("#lightboxTitle");
@@ -121,46 +121,38 @@ const lightboxDescription = document.querySelector("#lightboxDescription");
 const lightboxCount = document.querySelector("#lightboxCount");
 const lightboxPalette = document.querySelector("#lightboxPalette");
 const closeButton = document.querySelector(".close-button");
+const uploadInput = document.querySelector("#workUpload");
+const workCount = document.querySelector("#workCount");
+let activeFilter = "all";
 
 filterButtons.forEach((button) => {
   button.addEventListener("click", () => {
-    const filter = button.dataset.filter;
+    activeFilter = button.dataset.filter;
 
     filterButtons.forEach((item) => item.classList.remove("active"));
     button.classList.add("active");
-
-    workCards.forEach((card) => {
-      const shouldShow = filter === "all" || card.dataset.category === filter;
-      card.classList.toggle("is-hidden", !shouldShow);
-    });
+    applyFilter();
   });
 });
 
-workCards.forEach((card) => {
-  const trigger = card.querySelector("button");
+gallery.addEventListener("click", (event) => {
+  const trigger = event.target.closest(".work-card button");
 
-  trigger.addEventListener("click", () => {
-    const work = works[Number(trigger.dataset.index)];
+  if (!trigger) {
+    return;
+  }
 
-    lightboxImage.src = work.image;
-    lightboxImage.alt = work.alt;
-    lightboxTitle.textContent = work.title;
-    lightboxDescription.textContent = work.description;
-    lightboxCount.textContent = `Lamina ${Number(trigger.dataset.index) + 1} de ${works.length}`;
-    lightboxPalette.replaceChildren(...work.palette.map((color) => {
-      const item = document.createElement("div");
-      item.className = "palette-swatch";
-      item.innerHTML = `
-        <span class="swatch-color" style="--swatch: ${color.hex}"></span>
-        <span class="swatch-copy">
-          <strong>${color.name}</strong>
-          <small>${color.hex} / RGB ${color.rgb}</small>
-        </span>
-      `;
-      return item;
-    }));
-    lightbox.showModal();
-  });
+  openWork(Number(trigger.dataset.index));
+});
+
+uploadInput.addEventListener("change", async (event) => {
+  const files = Array.from(event.target.files).filter((file) => file.type.startsWith("image/"));
+
+  for (const file of files) {
+    await addUploadedWork(file);
+  }
+
+  event.target.value = "";
 });
 
 closeButton.addEventListener("click", () => {
@@ -172,3 +164,144 @@ lightbox.addEventListener("click", (event) => {
     lightbox.close();
   }
 });
+
+function applyFilter() {
+  document.querySelectorAll(".work-card").forEach((card) => {
+    const shouldShow = activeFilter === "all" || card.dataset.category === activeFilter;
+    card.classList.toggle("is-hidden", !shouldShow);
+  });
+}
+
+function openWork(index) {
+  const work = works[index];
+
+  lightboxImage.src = work.image;
+  lightboxImage.alt = work.alt;
+  lightboxTitle.textContent = work.title;
+  lightboxDescription.textContent = work.description;
+  lightboxCount.textContent = `Lamina ${index + 1} de ${works.length}`;
+  lightboxPalette.replaceChildren(...work.palette.map((color) => {
+    const item = document.createElement("div");
+    item.className = "palette-swatch";
+    item.innerHTML = `
+      <span class="swatch-color" style="--swatch: ${color.hex}"></span>
+      <span class="swatch-copy">
+        <strong>${color.name}</strong>
+        <small>${color.hex} / RGB ${color.rgb}</small>
+      </span>
+    `;
+    return item;
+  }));
+  lightbox.showModal();
+}
+
+async function addUploadedWork(file) {
+  const image = await readFileAsDataUrl(file);
+  const title = formatFileName(file.name);
+  const palette = await extractPalette(image);
+  const work = {
+    title,
+    description: "Nueva obra subida a la galeria para revisar junto al resto del portfolio.",
+    image,
+    alt: `Obra subida: ${title}`,
+    palette
+  };
+
+  works.push(work);
+  renderUploadedCard(work, works.length - 1);
+  workCount.textContent = works.length;
+  activeFilter = "all";
+  filterButtons.forEach((item) => item.classList.toggle("active", item.dataset.filter === "all"));
+  applyFilter();
+}
+
+function renderUploadedCard(work, index) {
+  const card = document.createElement("article");
+  card.className = "work-card";
+  card.dataset.category = "subidas";
+  card.innerHTML = `
+    <button type="button" data-index="${index}">
+      <img src="${work.image}" alt="${work.alt}">
+      <span class="work-meta"><strong>${work.title}</strong><span>Obra subida</span></span>
+    </button>
+  `;
+  gallery.append(card);
+}
+
+function readFileAsDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.addEventListener("load", () => resolve(reader.result));
+    reader.addEventListener("error", () => reject(reader.error));
+    reader.readAsDataURL(file);
+  });
+}
+
+function formatFileName(name) {
+  return name
+    .replace(/\.[^/.]+$/, "")
+    .replace(/[-_]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .replace(/\b\w/g, (letter) => letter.toUpperCase()) || "Nueva obra";
+}
+
+function extractPalette(src) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.addEventListener("load", () => {
+      const canvas = document.createElement("canvas");
+      const size = 80;
+      const scale = Math.min(size / img.naturalWidth, size / img.naturalHeight);
+      canvas.width = Math.max(1, Math.round(img.naturalWidth * scale));
+      canvas.height = Math.max(1, Math.round(img.naturalHeight * scale));
+
+      const context = canvas.getContext("2d", { willReadFrequently: true });
+      context.drawImage(img, 0, 0, canvas.width, canvas.height);
+      const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+      const buckets = new Map();
+
+      for (let index = 0; index < pixels.length; index += 4) {
+        const alpha = pixels[index + 3];
+        const red = pixels[index];
+        const green = pixels[index + 1];
+        const blue = pixels[index + 2];
+        const brightness = (red + green + blue) / 3;
+
+        if (alpha < 220 || brightness > 244 || brightness < 18) {
+          continue;
+        }
+
+        const key = [red, green, blue].map((value) => Math.round(value / 32) * 32).join(",");
+        const current = buckets.get(key) || { count: 0, red: 0, green: 0, blue: 0 };
+        current.count += 1;
+        current.red += red;
+        current.green += green;
+        current.blue += blue;
+        buckets.set(key, current);
+      }
+
+      const palette = Array.from(buckets.values())
+        .sort((a, b) => b.count - a.count)
+        .slice(0, 5)
+        .map((bucket, index) => {
+          const red = Math.round(bucket.red / bucket.count);
+          const green = Math.round(bucket.green / bucket.count);
+          const blue = Math.round(bucket.blue / bucket.count);
+
+          return {
+            name: `Color ${index + 1}`,
+            hex: rgbToHex(red, green, blue),
+            rgb: `${red}, ${green}, ${blue}`
+          };
+        });
+
+      resolve(palette.length ? palette : [{ name: "Papel", hex: "#F7F7F3", rgb: "247, 247, 243" }]);
+    });
+    img.src = src;
+  });
+}
+
+function rgbToHex(red, green, blue) {
+  return `#${[red, green, blue].map((value) => value.toString(16).padStart(2, "0")).join("").toUpperCase()}`;
+}

@@ -131,8 +131,11 @@ const editCategory = document.querySelector("#editCategory");
 const editMeta = document.querySelector("#editMeta");
 const cancelEdit = document.querySelector("#cancelEdit");
 const deleteFromEditor = document.querySelector("#deleteFromEditor");
+const editCurrentWork = document.querySelector("#editCurrentWork");
+const deleteCurrentWork = document.querySelector("#deleteCurrentWork");
 let activeFilter = "all";
 let editingIndex = null;
+let activeWorkIndex = null;
 
 hydrateInitialCards();
 
@@ -147,22 +150,6 @@ filterButtons.forEach((button) => {
 });
 
 gallery.addEventListener("click", (event) => {
-  const tool = event.target.closest("[data-action]");
-
-  if (tool) {
-    const index = Number(tool.closest(".work-card").querySelector("[data-index]").dataset.index);
-
-    if (tool.dataset.action === "edit") {
-      openEditor(index);
-    }
-
-    if (tool.dataset.action === "delete") {
-      deleteWork(index);
-    }
-
-    return;
-  }
-
   const trigger = event.target.closest(".work-card button");
 
   if (!trigger) {
@@ -192,8 +179,11 @@ cancelEdit.addEventListener("click", () => {
 
 deleteFromEditor.addEventListener("click", () => {
   if (editingIndex !== null) {
-    deleteWork(editingIndex);
-    editDialog.close();
+    const deleted = deleteWork(editingIndex);
+
+    if (deleted) {
+      editDialog.close();
+    }
   }
 });
 
@@ -216,6 +206,23 @@ editForm.addEventListener("submit", (event) => {
   applyFilter();
 });
 
+editCurrentWork.addEventListener("click", () => {
+  if (activeWorkIndex !== null) {
+    lightbox.close();
+    openEditor(activeWorkIndex);
+  }
+});
+
+deleteCurrentWork.addEventListener("click", () => {
+  if (activeWorkIndex !== null) {
+    const deleted = deleteWork(activeWorkIndex);
+
+    if (deleted) {
+      lightbox.close();
+    }
+  }
+});
+
 lightbox.addEventListener("click", (event) => {
   if (event.target === lightbox) {
     lightbox.close();
@@ -231,7 +238,6 @@ function hydrateInitialCards() {
     works[index].meta = meta?.textContent.trim() || "Obra seleccionada";
     works[index].large = card.classList.contains("large");
     trigger.dataset.index = index;
-    addCardTools(card);
   });
 }
 
@@ -245,6 +251,7 @@ function applyFilter() {
 function openWork(index) {
   const work = works[index];
 
+  activeWorkIndex = index;
   lightboxImage.src = work.image;
   lightboxImage.alt = work.alt;
   lightboxTitle.textContent = work.title;
@@ -298,22 +305,7 @@ function renderUploadedCard(work, index) {
       <span class="work-meta"><strong>${work.title}</strong><span>${work.meta}</span></span>
     </button>
   `;
-  addCardTools(card);
   gallery.append(card);
-}
-
-function addCardTools(card) {
-  if (card.querySelector(".card-tools")) {
-    return;
-  }
-
-  const tools = document.createElement("div");
-  tools.className = "card-tools";
-  tools.innerHTML = `
-    <button type="button" data-action="edit">Editar</button>
-    <button type="button" data-action="delete">Eliminar</button>
-  `;
-  card.append(tools);
 }
 
 function openEditor(index) {
@@ -347,14 +339,17 @@ function deleteWork(index) {
   const confirmed = window.confirm(`Eliminar "${work.title}" de esta galeria?`);
 
   if (!confirmed) {
-    return;
+    return false;
   }
 
   document.querySelector(`.work-card button[data-index="${index}"]`)?.closest(".work-card")?.remove();
   works.splice(index, 1);
+  activeWorkIndex = null;
+  editingIndex = null;
   reindexCards();
   updateWorkCount();
   applyFilter();
+  return true;
 }
 
 function reindexCards() {

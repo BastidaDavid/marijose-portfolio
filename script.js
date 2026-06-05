@@ -138,6 +138,7 @@ const authDialog = document.querySelector("#authDialog");
 const authForm = document.querySelector("#authForm");
 const authEmail = document.querySelector("#authEmail");
 const authPassword = document.querySelector("#authPassword");
+const togglePassword = document.querySelector("#togglePassword");
 const authMessage = document.querySelector("#authMessage");
 const authStatus = document.querySelector("#authStatus");
 const cancelAuth = document.querySelector("#cancelAuth");
@@ -216,6 +217,14 @@ signUpButton.addEventListener("click", async () => {
 
 signOutButton.addEventListener("click", async () => {
   await signOut();
+});
+
+togglePassword.addEventListener("click", () => {
+  const isVisible = authPassword.type === "text";
+  authPassword.type = isVisible ? "password" : "text";
+  togglePassword.textContent = isVisible ? "Ver" : "Ocultar";
+  togglePassword.setAttribute("aria-label", isVisible ? "Mostrar password" : "Ocultar password");
+  togglePassword.setAttribute("aria-pressed", String(!isVisible));
 });
 
 deleteFromEditor.addEventListener("click", () => {

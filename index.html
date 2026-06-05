@@ -245,7 +245,10 @@
         </label>
         <label>
           Password
-          <input id="authPassword" name="password" type="password" autocomplete="current-password" required>
+          <span class="password-field">
+            <input id="authPassword" name="password" type="password" autocomplete="current-password" required>
+            <button class="password-toggle" id="togglePassword" type="button" aria-label="Mostrar password" aria-pressed="false">Ver</button>
+          </span>
         </label>
         <p class="auth-message" id="authMessage" role="status"></p>
         <div class="edit-actions">

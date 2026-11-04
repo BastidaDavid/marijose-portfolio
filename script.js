@@ -3,111 +3,111 @@ const works = [
     title: "Denim Plume",
     description: "Pantalon denim amplio con aplicacion de plumas azules. Lamina con vista frontal y posterior.",
     image: "./assets/pdf-pages/page-1.png",
-    alt: "Boceto de pantalon denim con plumas",
+    alt: "Sketch de pantalon denim con plumas",
     palette: [
-      { name: "Denim hielo", hex: "#B9DCE8", rgb: "185, 220, 232" },
-      { name: "Azul pluma", hex: "#47758F", rgb: "71, 117, 143" },
-      { name: "Algodon", hex: "#F7F7F3", rgb: "247, 247, 243" },
-      { name: "Linea carbon", hex: "#161312", rgb: "22, 19, 18" }
+      { name: "Ice Denim", hex: "#B9DCE8", rgb: "185, 220, 232" },
+      { name: "Feather Blue", hex: "#47758F", rgb: "71, 117, 143" },
+      { name: "Cotton", hex: "#F7F7F3", rgb: "247, 247, 243" },
+      { name: "Charcoal Line", hex: "#161312", rgb: "22, 19, 18" }
     ]
   },
   {
-    title: "Objeto petalo",
+    title: "Petal Object",
     description: "Exploracion de objeto con piezas organicas, patrones pictoricos y base de madera.",
     image: "./assets/pdf-pages/page-2.png",
-    alt: "Objeto con petalos organicos de colores",
+    alt: "Object with organic colored petals",
     palette: [
-      { name: "Rojo petalo", hex: "#BC251D", rgb: "188, 37, 29" },
-      { name: "Ambar calido", hex: "#F2A13A", rgb: "242, 161, 58" },
-      { name: "Azul gris", hex: "#8DA9A8", rgb: "141, 169, 168" },
-      { name: "Madera", hex: "#9A6D3C", rgb: "154, 109, 60" },
-      { name: "Negro tinta", hex: "#100907", rgb: "16, 9, 7" }
+      { name: "Petal Red", hex: "#BC251D", rgb: "188, 37, 29" },
+      { name: "Warm Amber", hex: "#F2A13A", rgb: "242, 161, 58" },
+      { name: "Gray Blue", hex: "#8DA9A8", rgb: "141, 169, 168" },
+      { name: "Wood", hex: "#9A6D3C", rgb: "154, 109, 60" },
+      { name: "Ink Black", hex: "#100907", rgb: "16, 9, 7" }
     ]
   },
   {
-    title: "Silueta editorial",
-    description: "Estudio de prenda desde una presentacion limpia de figurines y proporcion.",
+    title: "Editorial Silhouette",
+    description: "Garment study desde una presentacion limpia de figurines y proporcion.",
     image: "./assets/pdf-pages/page-3.png",
-    alt: "Boceto de moda pagina 3",
+    alt: "Fashion sketch page 3",
     palette: [
-      { name: "Azul marino", hex: "#1C3A5E", rgb: "28, 58, 94" },
-      { name: "Negro suave", hex: "#24201F", rgb: "36, 32, 31" },
-      { name: "Piel luz", hex: "#E7B79C", rgb: "231, 183, 156" },
-      { name: "Rojo detalle", hex: "#B92D2A", rgb: "185, 45, 42" }
+      { name: "Navy Blue", hex: "#1C3A5E", rgb: "28, 58, 94" },
+      { name: "Soft Black", hex: "#24201F", rgb: "36, 32, 31" },
+      { name: "Light Skin", hex: "#E7B79C", rgb: "231, 183, 156" },
+      { name: "Detail Red", hex: "#B92D2A", rgb: "185, 45, 42" }
     ]
   },
   {
-    title: "Look estructurado",
-    description: "Boceto de moda con enfasis en linea, caida y lectura de prenda completa.",
+    title: "Structured Look",
+    description: "Fashion sketch emphasizing line, drape and the reading of the full garment.",
     image: "./assets/pdf-pages/page-4.png",
-    alt: "Boceto de moda pagina 4",
+    alt: "Fashion sketch page 4",
     palette: [
-      { name: "Verde hoja", hex: "#8DA56E", rgb: "141, 165, 110" },
-      { name: "Verde sombra", hex: "#536B48", rgb: "83, 107, 72" },
-      { name: "Piel tenue", hex: "#E2B59C", rgb: "226, 181, 156" },
-      { name: "Grafito", hex: "#3C3631", rgb: "60, 54, 49" }
+      { name: "Leaf Green", hex: "#8DA56E", rgb: "141, 165, 110" },
+      { name: "Shadow Green", hex: "#536B48", rgb: "83, 107, 72" },
+      { name: "Pale Skin", hex: "#E2B59C", rgb: "226, 181, 156" },
+      { name: "Graphite", hex: "#3C3631", rgb: "60, 54, 49" }
     ]
   },
   {
-    title: "Rosa translucido",
+    title: "Translucent Rose",
     description: "Prenda rosa con transparencia y cinturon central, mostrada en frente y espalda.",
     image: "./assets/pdf-pages/page-5.png",
     alt: "Vestido rosa translucido con cinturon",
     palette: [
-      { name: "Rosa velo", hex: "#E6A8C1", rgb: "230, 168, 193" },
-      { name: "Rosa sombra", hex: "#C8759E", rgb: "200, 117, 158" },
-      { name: "Cinturon plata", hex: "#CFC8C3", rgb: "207, 200, 195" },
-      { name: "Flor vino", hex: "#7A394F", rgb: "122, 57, 79" }
+      { name: "Veil Pink", hex: "#E6A8C1", rgb: "230, 168, 193" },
+      { name: "Shadow Pink", hex: "#C8759E", rgb: "200, 117, 158" },
+      { name: "Silver Belt", hex: "#CFC8C3", rgb: "207, 200, 195" },
+      { name: "Wine Flower", hex: "#7A394F", rgb: "122, 57, 79" }
     ]
   },
   {
-    title: "Estudio de volumen",
+    title: "Volume Study",
     description: "Exploracion de volumen y detalle pensada para lectura editorial de portfolio.",
     image: "./assets/pdf-pages/page-6.png",
-    alt: "Boceto de moda pagina 6",
+    alt: "Fashion sketch page 6",
     palette: [
-      { name: "Rosa papel", hex: "#EAB2B7", rgb: "234, 178, 183" },
-      { name: "Azul acento", hex: "#6A9DB7", rgb: "106, 157, 183" },
-      { name: "Beige luz", hex: "#D9B884", rgb: "217, 184, 132" },
-      { name: "Fondo carbon", hex: "#2F2D2B", rgb: "47, 45, 43" }
+      { name: "Paper Pink", hex: "#EAB2B7", rgb: "234, 178, 183" },
+      { name: "Accent Blue", hex: "#6A9DB7", rgb: "106, 157, 183" },
+      { name: "Light Beige", hex: "#D9B884", rgb: "217, 184, 132" },
+      { name: "Charcoal Background", hex: "#2F2D2B", rgb: "47, 45, 43" }
     ]
   },
   {
     title: "Sketchbook I",
-    description: "Pieza de proceso con trazo manual y composicion de color.",
+    description: "Process piece with hand-drawn strokes and color composition.",
     image: "./assets/pdf-pages/page-7.png",
-    alt: "Boceto manual pagina 7",
+    alt: "Hand sketch page 7",
     palette: [
-      { name: "Azul bolso", hex: "#3C78A8", rgb: "60, 120, 168" },
-      { name: "Verde bolso", hex: "#55764F", rgb: "85, 118, 79" },
-      { name: "Violeta", hex: "#7B4C90", rgb: "123, 76, 144" },
-      { name: "Rojo sombrero", hex: "#9E3D35", rgb: "158, 61, 53" },
-      { name: "Piel lapiz", hex: "#D7AA7B", rgb: "215, 170, 123" }
+      { name: "Bag Blue", hex: "#3C78A8", rgb: "60, 120, 168" },
+      { name: "Bag Green", hex: "#55764F", rgb: "85, 118, 79" },
+      { name: "Violet", hex: "#7B4C90", rgb: "123, 76, 144" },
+      { name: "Hat Red", hex: "#9E3D35", rgb: "158, 61, 53" },
+      { name: "Pencil Skin", hex: "#D7AA7B", rgb: "215, 170, 123" }
     ]
   },
   {
     title: "Sketchbook II",
-    description: "Boceto manual como material de proceso para mostrar busqueda visual.",
+    description: "Hand sketch as process material showing visual exploration.",
     image: "./assets/pdf-pages/page-8.png",
-    alt: "Boceto manual pagina 8",
+    alt: "Hand sketch page 8",
     palette: [
-      { name: "Azul cielo", hex: "#7AB2D0", rgb: "122, 178, 208" },
-      { name: "Naranja", hex: "#D47B34", rgb: "212, 123, 52" },
-      { name: "Lavanda", hex: "#A88AC0", rgb: "168, 138, 192" },
-      { name: "Rojo cereza", hex: "#B94A3B", rgb: "185, 74, 59" }
+      { name: "Sky Blue", hex: "#7AB2D0", rgb: "122, 178, 208" },
+      { name: "Orange", hex: "#D47B34", rgb: "212, 123, 52" },
+      { name: "Lavender", hex: "#A88AC0", rgb: "168, 138, 192" },
+      { name: "Cherry Red", hex: "#B94A3B", rgb: "185, 74, 59" }
     ]
   },
   {
-    title: "Cositas",
+    title: "Little Things",
     description: "Vestido amarillo con patron ilustrado, paleta lateral y pequenos motivos graficos.",
     image: "./assets/pdf-pages/page-9.png",
     alt: "Vestido amarillo con patrones dibujados",
     palette: [
-      { name: "Amarillo vestido", hex: "#E8CF55", rgb: "232, 207, 85" },
-      { name: "Azul flor", hex: "#3B84B8", rgb: "59, 132, 184" },
-      { name: "Verde hoja", hex: "#3F8A51", rgb: "63, 138, 81" },
-      { name: "Rojo fruta", hex: "#B9423B", rgb: "185, 66, 59" },
-      { name: "Rosa flor", hex: "#D5749D", rgb: "213, 116, 157" }
+      { name: "Dress Yellow", hex: "#E8CF55", rgb: "232, 207, 85" },
+      { name: "Flower Blue", hex: "#3B84B8", rgb: "59, 132, 184" },
+      { name: "Leaf Green", hex: "#3F8A51", rgb: "63, 138, 81" },
+      { name: "Fruit Red", hex: "#B9423B", rgb: "185, 66, 59" },
+      { name: "Flower Pink", hex: "#D5749D", rgb: "213, 116, 157" }
     ]
   }
 ];
@@ -199,7 +199,7 @@ accountTrigger.addEventListener("click", () => {
   if (!authEmail.value) {
     authEmail.value = adminEmail;
   }
-  authDialog.showModal();
+  authDialog.showFashionl();
 });
 
 cancelAuth.addEventListener("click", () => {
@@ -222,8 +222,8 @@ signOutButton.addEventListener("click", async () => {
 togglePassword.addEventListener("click", () => {
   const isVisible = authPassword.type === "text";
   authPassword.type = isVisible ? "password" : "text";
-  togglePassword.textContent = isVisible ? "Ver" : "Ocultar";
-  togglePassword.setAttribute("aria-label", isVisible ? "Mostrar password" : "Ocultar password");
+  togglePassword.textContent = isVisible ? "Show" : "Hide";
+  togglePassword.setAttribute("aria-label", isVisible ? "Mostrar password" : "Hide password");
   togglePassword.setAttribute("aria-pressed", String(!isVisible));
 });
 
@@ -245,11 +245,11 @@ editForm.addEventListener("submit", (event) => {
   }
 
   const work = works[editingIndex];
-  work.title = editTitle.value.trim() || "Nueva obra";
-  work.description = editDescription.value.trim() || "Obra seleccionada para el portfolio.";
+  work.title = editTitle.value.trim() || "New work";
+  work.description = editDescription.value.trim() || "Work selected for the portfolio.";
   work.category = editCategory.value;
-  work.meta = editMeta.value.trim() || "Obra editada";
-  work.alt = `Obra de portfolio: ${work.title}`;
+  work.meta = editMeta.value.trim() || "Work updated";
+  work.alt = `Portfolio work: ${work.title}`;
 
   updateCard(editingIndex);
   if (canManageRemote()) {
@@ -288,7 +288,7 @@ function hydrateInitialCards() {
     const meta = card.querySelector(".work-meta > span");
 
     works[index].category = card.dataset.category;
-    works[index].meta = meta?.textContent.trim() || "Obra seleccionada";
+    works[index].meta = meta?.textContent.trim() || "Selected work";
     works[index].large = card.classList.contains("large");
     trigger.dataset.index = index;
   });
@@ -309,7 +309,7 @@ function openWork(index) {
   lightboxImage.alt = work.alt;
   lightboxTitle.textContent = work.title;
   lightboxDescription.textContent = work.description;
-  lightboxCount.textContent = `Lamina ${index + 1} de ${works.length}`;
+  lightboxCount.textContent = `Plate ${index + 1} of ${works.length}`;
   lightboxPalette.replaceChildren(...work.palette.map((color) => {
     const item = document.createElement("div");
     item.className = "palette-swatch";
@@ -322,7 +322,7 @@ function openWork(index) {
     `;
     return item;
   }));
-  lightbox.showModal();
+  lightbox.showFashionl();
 }
 
 async function addUploadedWork(file) {
@@ -331,12 +331,12 @@ async function addUploadedWork(file) {
   const palette = await extractPalette(image);
   const work = {
     title,
-    description: "Nueva obra subida a la galeria para revisar junto al resto del portfolio.",
+    description: "New work uploaded to the gallery to review alongside the rest of the portfolio.",
     image,
-    alt: `Obra subida: ${title}`,
+    alt: `Work uploaded: ${title}`,
     palette,
     category: "subidas",
-    meta: "Obra subida",
+    meta: "Work uploaded",
     large: false
   };
 
@@ -386,8 +386,8 @@ function openEditor(index) {
   editTitle.value = work.title;
   editDescription.value = work.description;
   editCategory.value = work.category || "subidas";
-  editMeta.value = work.meta || "Obra seleccionada";
-  editDialog.showModal();
+  editMeta.value = work.meta || "Selected work";
+  editDialog.showFashionl();
 }
 
 function updateCard(index) {
@@ -407,7 +407,7 @@ function updateCard(index) {
 
 function deleteWork(index) {
   const work = works[index];
-  const confirmed = window.confirm(`Eliminar "${work.title}" de esta galeria?`);
+  const confirmed = window.confirm(`Delete "${work.title}" from this gallery?`);
 
   if (!confirmed) {
     return false;
@@ -454,21 +454,21 @@ async function initializeSupabase() {
 
 function updateAuthUI() {
   if (currentUser) {
-    accountTrigger.textContent = "Cuenta";
+    accountTrigger.textContent = "Account";
     signOutButton.disabled = false;
 
     if (isAdminUser()) {
       authStatus.textContent = `Guardando como ${currentUser.email}`;
       uploadInput.disabled = false;
     } else {
-      authStatus.textContent = `Sesion activa, pero solo ${adminEmail} puede guardar cambios.`;
+      authStatus.textContent = `Session active, but only ${adminEmail} can save changes.`;
       uploadInput.disabled = true;
     }
     return;
   }
 
-  accountTrigger.textContent = "Entrar";
-  authStatus.textContent = "Inicia sesion para guardar cambios.";
+  accountTrigger.textContent = "Log in";
+  authStatus.textContent = "Log in to save changes.";
   signOutButton.disabled = true;
   uploadInput.disabled = false;
 }
@@ -498,7 +498,7 @@ async function signIn() {
     return;
   }
 
-  setAuthMessage("Sesion iniciada.");
+  setAuthMessage("Logged in.");
   authDialog.close();
 }
 
@@ -508,7 +508,7 @@ async function signUp() {
     return;
   }
 
-  setAuthMessage("Creando cuenta...");
+  setAuthMessage("Creating account...");
   const { error } = await supabaseClient.auth.signUp({
     email: authEmail.value.trim().toLowerCase(),
     password: authPassword.value
@@ -519,12 +519,12 @@ async function signUp() {
     return;
   }
 
-  setAuthMessage("Cuenta creada. Revisa el email si Supabase pide confirmacion.");
+  setAuthMessage("Account created. Check your email if Supabase asks for confirmation.");
 }
 
 async function signOut() {
   await supabaseClient.auth.signOut();
-  setAuthMessage("Sesion cerrada.");
+  setAuthMessage("Logged out.");
   authDialog.close();
 }
 
@@ -648,10 +648,10 @@ function fromRemoteRow(row) {
     title: row.title,
     description: row.description,
     image: row.image_url,
-    alt: row.alt || `Obra de portfolio: ${row.title}`,
+    alt: row.alt || `Portfolio work: ${row.title}`,
     palette: row.palette || [],
     category: row.category,
-    meta: row.meta || "Obra subida",
+    meta: row.meta || "Work uploaded",
     large: Boolean(row.is_large),
     remoteId: row.id,
     storagePath: row.storage_path,
@@ -674,7 +674,7 @@ function formatFileName(name) {
     .replace(/[-_]+/g, " ")
     .replace(/\s+/g, " ")
     .trim()
-    .replace(/\b\w/g, (letter) => letter.toUpperCase()) || "Nueva obra";
+    .replace(/\b\w/g, (letter) => letter.toUpperCase()) || "New work";
 }
 
 function extractPalette(src) {
@@ -727,7 +727,7 @@ function extractPalette(src) {
           };
         });
 
-      resolve(palette.length ? palette : [{ name: "Papel", hex: "#F7F7F3", rgb: "247, 247, 243" }]);
+      resolve(palette.length ? palette : [{ name: "Paper", hex: "#F7F7F3", rgb: "247, 247, 243" }]);
     });
     img.src = src;
   });
